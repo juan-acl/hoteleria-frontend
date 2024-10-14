@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoteleria_app.hoteleria_frontend.dto.hotel.HotelDto;
 import com.hoteleria_app.hoteleria_frontend.dto.hotel.ResponseGetAllHotelsDto;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +34,7 @@ public class HotelService {
             ResponseGetAllHotelsDto responseGetAllHotelsDto =
                     objectMapper.readValue(response.getBody(),
                             ResponseGetAllHotelsDto.class);
-            if(responseGetAllHotelsDto.getStatus() != 200) {
+            if (responseGetAllHotelsDto.getStatus() != 200) {
                 return null;
             }
             return Set.of(responseGetAllHotelsDto.getHotels());
