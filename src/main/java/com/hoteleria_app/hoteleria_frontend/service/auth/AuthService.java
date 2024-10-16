@@ -2,7 +2,9 @@ package com.hoteleria_app.hoteleria_frontend.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.ResponseSignInDto;
+import com.hoteleria_app.hoteleria_frontend.dto.auth.ResponseSignUpDto;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.SignInDto;
+import com.hoteleria_app.hoteleria_frontend.dto.auth.SignUpDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,23 @@ public class AuthService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return "";
+        }
+    }
+
+    public String signUp(SignUpDto userRegister) {
+        try {
+            ResponseEntity<String> responseSignUp =
+                    restTemplate.postForEntity(BASE_URL + CURRENT_PATH +
+                            "/signUp", userRegister, String.class);
+            ResponseSignUpDto responseSignUpDto =
+                    objectMapper.readValue(responseSignUp.getBody(),
+                            ResponseSignUpDto.class);
+            if (responseSignUpDto.getStatus().equals("error")) {
+                return responseSignUpDto.getMessage();
+            }
+            return "";
+        } catch (Exception error) {
+            return "Error creando el usuario";
         }
     }
 

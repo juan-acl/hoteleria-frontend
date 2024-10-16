@@ -1,18 +1,50 @@
 package com.hoteleria_app.hoteleria_frontend.controller.auth.signUp;
 
+import com.hoteleria_app.hoteleria_frontend.dto.auth.SignUpDto;
+import com.hoteleria_app.hoteleria_frontend.service.auth.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SignUpController {
+    private final AuthService authService;
+
+    public SignUpController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @GetMapping("/signUp")
     public String signUpComponent() {
         return "signUp";
     }
 
     @PostMapping("/signUp")
-    public String signUp() {
-        return "signUp";
+    public String signUp
+            (
+                    @RequestParam String name,
+                    @RequestParam String lastname,
+                    @RequestParam String email,
+                    @RequestParam String password,
+                    @RequestParam String phone,
+                    RedirectAttributes modelRedirect
+            ) {
+        try {
+
+            SignUpDto signUpDto = new SignUpDto(name, lastname, email,
+                    password, phone);
+            String signUp = authService.signUp(signUpDto);
+            if (!signUp.isEmpty()) {
+                modelRedirect.addFlashAttribute("icon", "error");
+                modelRedirect.addFlashAttribute("errorMessage", signUp);
+                return "redirect:/signUp";
+            }
+            modelRedirect.addFlashAttribute("icon", "success");
+            return "redirect:/";
+        } catch (Exception e) {
+            return "redirect:/signUp";
+        }
     }
 }

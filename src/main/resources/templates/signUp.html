@@ -13,7 +13,7 @@
     <p class="text-gray-600 text-center mb-6">Crea tu cuenta para empezar a usar
         la Aplicación de Hoteles</p>
 
-    <form th:action="@{/register}" method="POST" class="space-y-6"
+    <form th:action="@{/signUp}" method="POST" class="space-y-6"
           onsubmit="showLoaderFunc()">
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Nombre
@@ -40,7 +40,7 @@
             <label for="phone"
                    class="block text-sm font-medium text-gray-700">Celular
             </label>
-            <input type="email" id="phone" name="email" required
+            <input type="text" id="phone" name="phone" maxlength="8" required
                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
         </div>
 
