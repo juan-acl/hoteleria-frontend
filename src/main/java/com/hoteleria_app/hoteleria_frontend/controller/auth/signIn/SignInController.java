@@ -2,6 +2,8 @@ package com.hoteleria_app.hoteleria_frontend.controller.auth.signIn;
 
 import com.hoteleria_app.hoteleria_frontend.dto.auth.SignInDto;
 import com.hoteleria_app.hoteleria_frontend.service.auth.AuthService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +27,8 @@ public class SignInController {
     public String signIn(
             @RequestParam String email,
             @RequestParam String password,
-            RedirectAttributes model
+            RedirectAttributes model,
+            HttpServletRequest request
     ) {
         try {
             SignInDto userSignIn = new SignInDto(email, password);
@@ -39,6 +42,7 @@ public class SignInController {
                         "again.");
                 return "redirect:/signIn";
             }
+            request.getSession().setAttribute("token", signIn);
             model.addFlashAttribute("icon", "success");
             return "redirect:/";
         } catch (Exception e) {
