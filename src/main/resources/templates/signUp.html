@@ -3,22 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hotelería App</title>
+    <title>Registro - Hotelería App</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-    <h2 class="text-3xl font-bold text-center text-gray-700">Login</h2>
-    <p class="text-gray-600 text-center mb-6">Bienvenido a la Aplicación de
-        Hoteles</p>
+    <h2 class="text-3xl font-bold text-center text-gray-700">Registro</h2>
+    <p class="text-gray-600 text-center mb-6">Crea tu cuenta para empezar a usar
+        la Aplicación de Hoteles</p>
 
-    <form th:action="@{/signIn}" method="POST" class="space-y-6"
+    <form th:action="@{/register}" method="POST" class="space-y-6"
           onsubmit="showLoaderFunc()">
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre
+            </label>
+            <input type="text" id="name" name="name" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+        </div>
+        <div>
+            <label for="lastname"
+                   class="block text-sm font-medium text-gray-700">Apellido
+            </label>
+            <input type="text" id="lastname" name="lastname" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+        </div>
+
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Correo
                 Electrónico</label>
             <input type="email" id="email" name="email" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+        </div>
+
+        <div>
+            <label for="phone"
+                   class="block text-sm font-medium text-gray-700">Celular
+            </label>
+            <input type="email" id="phone" name="email" required
                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
         </div>
 
@@ -29,32 +51,18 @@
                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
         </div>
 
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <input id="remember_me" name="remember_me" type="checkbox"
-                       class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded">
-                <label for="remember_me"
-                       class="ml-2 block text-sm text-gray-700">Recordarme</label>
-            </div>
-
-            <div class="text-sm">
-                <a href="#"
-                   class="font-medium text-amber-600 hover:text-amber-500">¿Olvidaste
-                    tu contraseña?</a>
-            </div>
-        </div>
-
         <div>
             <button type="submit"
                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-                Iniciar sesión
+                Registrarse
             </button>
         </div>
     </form>
 
     <p class="mt-6 text-center text-gray-600">
-        ¿No tienes una cuenta? <a href="/signUp"
-                                  class="text-amber-600 font-medium hover:text-amber-500">Regístrate</a>
+        ¿Ya tienes una cuenta? <a th:href="@{/signIn}"
+                                  class="text-amber-600 font-medium hover:text-amber-500">Iniciar
+        sesión</a>
     </p>
 </div>
 
@@ -118,7 +126,6 @@
         display: none;
     }
 
-    /* Animación de rotación */
     @keyframes spin {
         0% {
             transform: rotate(0deg);
@@ -127,7 +134,6 @@
             transform: rotate(360deg);
         }
     }
-
 </style>
 
 <script>
@@ -142,7 +148,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         hideLoaderFunc();
     });
-
 </script>
 
 </body>
