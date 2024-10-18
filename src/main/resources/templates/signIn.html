@@ -65,10 +65,10 @@
     </div>
 </div>
 
-<div th:if="${errorMessage}" th:with="message=${errorMessage}">
+<div th:if="${session.errorMessage}" th:with="message=${session.errorMessage}">
     <script>
-        const message = "[[${errorMessage}]]"
-        const icon = "[[${icon}]]"
+        const message = "[[${session.errorMessage}]]"
+        const icon = "[[${session.icon}]]"
 
         Swal.fire({
             title: icon === "error" ? "Error" : "Éxito",
@@ -79,8 +79,10 @@
             color: "white",
             background: "rgba(0,0,0,0.9)",
             toast: true,
-            timer: 3000,
-            allowEscapeKey: false,
+            timer: 2000,
+            allowEscapeKey: true,
+        }).then(() => {
+
         })
     </script>
 </div>

@@ -2,6 +2,7 @@ package com.hoteleria_app.hoteleria_frontend.controller.auth.signUp;
 
 import com.hoteleria_app.hoteleria_frontend.dto.auth.SignUpDto;
 import com.hoteleria_app.hoteleria_frontend.service.auth.AuthService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ public class SignUpController {
                     @RequestParam String email,
                     @RequestParam String password,
                     @RequestParam String phone,
-                    RedirectAttributes modelRedirect
+                    HttpSession session
             ) {
         try {
 
@@ -37,11 +38,11 @@ public class SignUpController {
                     password, phone);
             String signUp = authService.signUp(signUpDto);
             if (!signUp.isEmpty()) {
-                modelRedirect.addFlashAttribute("icon", "error");
-                modelRedirect.addFlashAttribute("errorMessage", signUp);
+                session.setAttribute("icon", "error");
+                session.setAttribute("errorMessage", signUp);
                 return "redirect:/signUp";
             }
-            modelRedirect.addFlashAttribute("icon", "success");
+            session.setAttribute("icon", "success");
             return "redirect:/";
         } catch (Exception e) {
             return "redirect:/signUp";

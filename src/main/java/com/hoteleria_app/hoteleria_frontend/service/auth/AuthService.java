@@ -1,10 +1,7 @@
 package com.hoteleria_app.hoteleria_frontend.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hoteleria_app.hoteleria_frontend.dto.auth.ResponseSignInDto;
-import com.hoteleria_app.hoteleria_frontend.dto.auth.ResponseSignUpDto;
-import com.hoteleria_app.hoteleria_frontend.dto.auth.SignInDto;
-import com.hoteleria_app.hoteleria_frontend.dto.auth.SignUpDto;
+import com.hoteleria_app.hoteleria_frontend.dto.auth.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,7 @@ public class AuthService {
         this.restTemplate = restTemplate;
     }
 
-    public String signIn(SignInDto user) {
+    public ResponseToken signIn(SignInDto user) {
         try {
             ResponseEntity<String> responseSignIn =
                     restTemplate.postForEntity(BASE_URL + CURRENT_PATH +
@@ -33,12 +30,11 @@ public class AuthService {
                     objectMapper.readValue(responseSignIn.getBody(),
                             ResponseSignInDto.class);
             if (responseSignInDto.getToken() == null) {
-                return "";
+                return new ResponseToken(null, responseSignInDto.getMessage());
             }
-            return responseSignInDto.getToken();
+            return new ResponseToken(responseSignInDto.getToken(), "");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return "";
+            return new ResponseToken(null, "E   rror al iniciar sesión");
         }
     }
 
