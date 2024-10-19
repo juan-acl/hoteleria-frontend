@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Card</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body>
+
+<!-- Contenido de la tarjeta de hotel -->
+<div th:fragment="content">
+    <div class="bg-white shadow-lg rounded-lg max-w-sm overflow-hidden mx-auto">
+        <img class="w-full h-48 object-cover"
+             src="https://via.placeholder.com/400x300" alt="Hotel Image">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-gray-800">Hotel Nombre</h2>
+            <p class="text-gray-600 mt-2">Ubicación: Ciudad, País</p>
+            <p class="text-gray-600 mt-2">Precio por noche: $120</p>
+            <p class="text-gray-600 mt-2">Calificación: ⭐⭐⭐⭐ (4.5/5)</p>
+            <p class="text-gray-600 mt-4">Este hotel ofrece una estancia cómoda
+                con excelentes instalaciones y una ubicación céntrica, perfecta
+                para turistas y viajeros de negocios.</p>
+
+            <div
+                    class="mt-6 flex justify-between items-center"
+            >
+                <!-- Botón para abrir el modal -->
+                <button onclick="openModal(this)"
+                        class="bg-amber-600 text-white px-4 py-2 rounded-md shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                    Reservar
+                </button>
+                <a href="#"
+                   class="text-amber-600 hover:text-amber-500 font-medium">Ver
+                    detalles</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reservationModal"
+         class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold">Reservar habitación</h3>
+                <button onclick="closeModal()"
+                        class="text-gray-600 hover:text-gray-900">&times;
+                </button>
+            </div>
+            <p class="mt-4">Por favor, complete los detalles para realizar la
+                reserva.</p>
+            <form class="mt-6">
+                <div class="mb-4">
+                    <label for="name"
+                           class="block text-sm font-medium text-gray-700">Nombre
+                        completo</label>
+                    <input type="text" id="name"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email"
+                           class="block text-sm font-medium text-gray-700">Correo
+                        electrónico</label>
+                    <input type="email" id="email"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button
+                            type="button" onclick="closeModal()"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
+                        Confirmar Reserva
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts para abrir y cerrar el modal -->
+<script>
+    function openModal() {
+        document.getElementById('reservationModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('reservationModal').classList.add('hidden');
+    }
+</script>
+
+</body>
+</html>
