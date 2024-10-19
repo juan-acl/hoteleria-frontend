@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HotelController {
 
     @GetMapping("/hotels")
+    
     public String hotels(Model model) {
         model.addAttribute("pageContent", "hotels");
         return "layout";
