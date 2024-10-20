@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Hotelería App</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 <div th:fragment="content">
@@ -163,20 +163,6 @@
             }
         }
     </style>
-
-    <script>
-        function showLoaderFunc() {
-            document.getElementById("loader").classList.remove("hidden");
-        }
-
-        function hideLoaderFunc() {
-            document.getElementById("loader").classList.add("hidden");
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            hideLoaderFunc();
-        });
-    </script>
 
 </div>
 </body>

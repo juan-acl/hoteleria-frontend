@@ -39,7 +39,6 @@ public class SignUpController {
                     HttpSession session
             ) {
         try {
-            session.setAttribute("token", "hola");
             SignUpDto signUpDto = new SignUpDto(name, lastname, email,
                     password, phone);
             String signUp = authService.signUp(signUpDto);
@@ -49,7 +48,7 @@ public class SignUpController {
                 return "redirect:/signUp";
             }
             session.setAttribute("icon", "success");
-            return "redirect:/";
+            return "redirect:/signIn";
         } catch (Exception e) {
             return "redirect:/signUp";
         }
