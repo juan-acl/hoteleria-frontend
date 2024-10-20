@@ -3,15 +3,13 @@ package com.hoteleria_app.hoteleria_frontend.controller.auth.signIn;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.ResponseToken;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.SignInDto;
 import com.hoteleria_app.hoteleria_frontend.service.auth.AuthService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SignInController {
@@ -24,10 +22,11 @@ public class SignInController {
     }
 
     @GetMapping("/signIn")
-    public String signInComponent() {
+    public String signInComponent(Model model) {
         session.removeAttribute("errorMessage");
         session.removeAttribute("icon");
-        return "signIn";
+        model.addAttribute("pageContent", "signIn");
+        return "layout";
     }
 
     @PostMapping("/signIn")
@@ -59,6 +58,5 @@ public class SignInController {
         session.removeAttribute("errorMessage");
         session.removeAttribute("icon");
     }
-
 
 }

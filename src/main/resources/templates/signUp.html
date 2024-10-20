@@ -8,147 +8,176 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
-<div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-    <h2 class="text-3xl font-bold text-center text-gray-700">Registro</h2>
-    <p class="text-gray-600 text-center mb-6">Crea tu cuenta para empezar a usar
-        la Aplicación de Hoteles</p>
+<div th:fragment="content">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+        <h2 class="text-3xl font-bold text-center text-gray-700">Registro</h2>
+        <p class="text-gray-600 text-center mb-6">Crea tu cuenta para empezar a
+            usar
+            la Aplicación de Hoteles</p>
 
-    <form th:action="@{/signUp}" method="POST" class="space-y-6"
-          onsubmit="showLoaderFunc()">
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Nombre
-            </label>
-            <input type="text" id="name" name="name" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
-        </div>
-        <div>
-            <label for="lastname"
-                   class="block text-sm font-medium text-gray-700">Apellido
-            </label>
-            <input type="text" id="lastname" name="lastname" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
-        </div>
+        <form th:action="@{/signUp}" method="POST" class="space-y-6"
+              onsubmit="showLoaderFunc()">
+            <div>
+                <label for="name"
+                       class="block text-sm font-medium text-gray-700">Nombre
+                </label>
+                <input type="text" id="name" name="name" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+            </div>
+            <div>
+                <label for="lastname"
+                       class="block text-sm font-medium text-gray-700">Apellido
+                </label>
+                <input type="text" id="lastname" name="lastname" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+            </div>
 
-        <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">Correo
-                Electrónico</label>
-            <input type="email" id="email" name="email" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
-        </div>
+            <div>
+                <label for="email"
+                       class="block text-sm font-medium text-gray-700">Correo
+                    Electrónico</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+            </div>
 
-        <div>
-            <label for="phone"
-                   class="block text-sm font-medium text-gray-700">Celular
-            </label>
-            <input type="text" id="phone" name="phone" maxlength="8" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
-        </div>
+            <div>
+                <label for="phone"
+                       class="block text-sm font-medium text-gray-700">Celular
+                </label>
+                <input type="text" id="phone" name="phone" maxlength="8"
+                       required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+            </div>
 
-        <div>
-            <label for="password"
-                   class="block text-sm font-medium text-gray-700">Contraseña</label>
-            <input type="password" id="password" name="password" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
-        </div>
+            <div>
+                <label for="password"
+                       class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input type="password" id="password" name="password" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-700">
+            </div>
 
-        <div>
-            <button type="submit"
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-                Registrarse
-            </button>
-        </div>
-    </form>
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-custom hover:bg-custom-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
+                    Registrarse
+                </button>
+            </div>
+        </form>
 
-    <p class="mt-6 text-center text-gray-600">
-        ¿Ya tienes una cuenta? <a th:href="@{/signIn}"
-                                  class="text-amber-600 font-medium hover:text-amber-500">Iniciar
-        sesión</a>
-    </p>
-</div>
+        <p class="mt-6 text-center text-gray-600 ">
+            ¿Ya tienes una cuenta? <a th:href="@{/signIn}"
+                                      class="text-custom font-medium hover:text-custom-darker">Iniciar
+            sesión</a>
+        </p>
 
-<div id="loader" class="loader hidden">
-    <div class="loader-content">
-        <div class="spinner">
+    </div>
+
+    <div id="loader" class="loader hidden">
+        <div class="loader-content">
+            <div class="spinner">
+            </div>
         </div>
     </div>
-</div>
 
-<div th:if="${session.errorMessage}" th:with="message=${session.errorMessage}">
+    <div th:if="${session.errorMessage}"
+         th:with="message=${session.errorMessage}">
+        <script>
+            const message = "[[${session.errorMessage}]]"
+            const icon = "[[${session.icon}]]"
+
+            Swal.fire({
+                title: icon === "error" ? "Error" : "Éxito",
+                text: message,
+                icon,
+                confirmButtonText: 'OK',
+                position: "center",
+                color: "white",
+                background: "rgba(0,0,0,0.9)",
+                toast: true,
+                timer: 3000,
+                allowEscapeKey: false,
+            })
+        </script>
+    </div>
+
+    <style>
+
+        .bg-custom {
+            background-color: rgba(217, 119, 6, 1);
+        }
+
+        .hover\:bg-custom-darker:hover {
+            background-color: rgba(217, 119, 6, 0.8);
+        }
+
+        .focus\:ring-custom {
+            --tw-ring-color: rgba(217, 119, 6, 1);
+        }
+
+        .text-custom {
+            color: rgba(217, 119, 6, 1);
+        }
+
+        .hover\:text-custom-darker:hover {
+            color: rgba(217, 119, 6, 0.8);
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
     <script>
-        const message = "[[${session.errorMessage}]]"
-        const icon = "[[${session.icon}]]"
+        function showLoaderFunc() {
+            document.getElementById("loader").classList.remove("hidden");
+        }
 
-        Swal.fire({
-            title: icon === "error" ? "Error" : "Éxito",
-            text: message,
-            icon,
-            confirmButtonText: 'OK',
-            position: "center",
-            color: "white",
-            background: "rgba(0,0,0,0.9)",
-            toast: true,
-            timer: 3000,
-            allowEscapeKey: false,
-        })
+        function hideLoaderFunc() {
+            document.getElementById("loader").classList.add("hidden");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            hideLoaderFunc();
+        });
     </script>
+
 </div>
-
-<style>
-    .loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-
-    .loader-content {
-        text-align: center;
-        color: white;
-    }
-
-    .spinner {
-        border: 5px solid rgba(255, 255, 255, 0.3);
-        border-top: 5px solid white;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>
-
-<script>
-    function showLoaderFunc() {
-        document.getElementById("loader").classList.remove("hidden");
-    }
-
-    function hideLoaderFunc() {
-        document.getElementById("loader").classList.add("hidden");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        hideLoaderFunc();
-    });
-</script>
-
 </body>
 </html>

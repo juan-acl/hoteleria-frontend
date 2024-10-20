@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout with Navbar</title>
-    <script type="text/javascript" th:src="@{/js/hotels.js}" defer
-    ></script>
+    <title>Layout with Navbar and Footer</title>
+    <script type="text/javascript" th:src="@{/js/hotels.js}" defer></script>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-<!-- Navbar persistente -->
+<!-- Navbar -->
 <nav class="bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="/" class="text-xl font-bold text-gray-800">Logo</a>
-                </div>
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a th:href="@{/}"
-                       class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a th:href="@{/about}"
-                       class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                    <a th:href="@{/services}"
-                       class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Services</a>
-                    <a th:href="@{/contact}"
-                       class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                </div>
+        <div class="flex justify-between h-16 items-center">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <a href="/" class="text-xl font-bold text-gray-800">Home</a>
             </div>
+
+            <!-- Links for desktop view -->
+            <div class=" sm:flex space-x-8">
+                <a th:href="@{/hotels}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Hoteles</a>
+                <a th:href="@{/hotels}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Reporteria</a>
+                <a th:href="@{/services}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mis
+                    reservaciones</a>
+                <a th:href="@{/contact}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Habitaciones</a>
+                <a th:href="@{/contact}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mi
+                    perfil</a>
+            </div>
+
+            <!-- Hamburger menu for mobile view -->
             <div class="sm:hidden flex items-center">
                 <button id="menu-toggle"
                         class="text-gray-900 focus:outline-none">
@@ -42,31 +48,44 @@
             </div>
         </div>
     </div>
+
+    <!-- Mobile menu, shown when hamburger icon is clicked -->
+    <div id="mobile-menu" class="sm:hidden hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a th:href="@{/}"
+               class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Home</a>
+            <a th:href="@{/about}"
+               class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">About</a>
+            <a th:href="@{/services}"
+               class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Services</a>
+            <a th:href="@{/contact}"
+               class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Contact</a>
+        </div>
+    </div>
 </nav>
 
-<!-- Main content area -->
-<main class="py-8">
-    <!-- Aquí es donde Thymeleaf insertará el contenido de cada página -->
+<!-- Main content -->
+<main class="flex-grow flex justify-center items-center py-8 gap-2">
     <div th:replace="${pageContent} :: content"></div>
-
 </main>
 
-<!-- Footer opcional -->
-<footer class="bg-white text-center py-4">
-    <p class="text-gray-600 text-sm">© 2024 Your Company. All rights
-        reserved.</p>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
 </footer>
 
+<script>
+    // Toggle mobile menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-<!--<script>-->
-<!--    function openModal() {-->
-<!--        document.getElementById('reservationModal').classList.remove('hidden');-->
-<!--    }-->
-
-<!--    function closeModal() {-->
-<!--        document.getElementById('reservationModal').classList.add('hidden');-->
-<!--    }-->
-<!--</script>-->
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
 
 </body>
 </html>
