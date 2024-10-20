@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SignUpController {
     private final AuthService authService;
+    private final HttpSession session;
 
-    public SignUpController(AuthService authService) {
+    public SignUpController(AuthService authService, HttpSession httpSession) {
         this.authService = authService;
+        this.session = httpSession;
     }
 
     @GetMapping("/signUp")
     public String signUpComponent(Model model) {
+        session.removeAttribute("token");
+        String token = (String) session.getAttribute("token");
+        session.setAttribute("token", token);
         model.addAttribute("pageContent", "signUp");
         return "layout";
     }
@@ -34,7 +39,7 @@ public class SignUpController {
                     HttpSession session
             ) {
         try {
-
+            session.setAttribute("token", "hola");
             SignUpDto signUpDto = new SignUpDto(name, lastname, email,
                     password, phone);
             String signUp = authService.signUp(signUpDto);

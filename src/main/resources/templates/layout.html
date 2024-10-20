@@ -24,13 +24,16 @@
                 <a th:href="@{/hotels}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Hoteles</a>
                 <a th:href="@{/hotels}"
+                   th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Reporteria</a>
                 <a th:href="@{/services}"
-                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mis
+                   th:if="${session.token != null and session.token != ''}"
+                   class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis
                     reservaciones</a>
                 <a th:href="@{/contact}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Habitaciones</a>
                 <a th:href="@{/contact}"
+                   th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mi
                     perfil</a>
             </div>
