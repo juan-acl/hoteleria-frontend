@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoteleria-App</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <script type="text/javascript" th:src="@{/js/signUp.js}" defer></script>
     <script type="text/javascript" th:src="@{/js/hotels.js}" defer></script>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .skeleton {
+            background-color: #e2e8f0;
+            animation: pulse 0.8s infinite ease-in-out;
+        }
+    </style>
 
 
 </head>
@@ -20,7 +37,7 @@
         <div class="flex justify-between h-16 items-center">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <a href="/" class="text-xl font-bold text-gray-800">Home</a>
+                <a href="/" class="text-xl font-bold text-gray-800">Inicio</a>
             </div>
 
             <!-- Links for desktop view -->
@@ -34,12 +51,25 @@
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis
                     reservaciones</a>
-                <a th:href="@{/contact}"
+                <a th:href="@{/rooms}"
+                   th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Habitaciones</a>
-                <a th:href="@{/contact}"
+                <a th:href="@{/me}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mi
                     perfil</a>
+                <a th:href="@{/myReservations}"
+                   th:if="${session.token != null and session.token != ''}"
+                   class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis
+                    reservaciones</a>
+                <a th:href="@{/signUp}"
+                   th:if="${session.token == null or session.token == ''}"
+                   class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium"
+                >Registrarse </a>
+                <a th:href="@{/signIn}"
+                   th:if="${session.token == null or session.token == ''}"
+                   class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium"
+                >Iniciar sesión </a>
             </div>
 
             <!-- Hamburger menu for mobile view -->
@@ -73,8 +103,10 @@
 </nav>
 
 <!-- Main content -->
-<main class="flex-grow flex justify-center items-center py-8 gap-2">
-    <div th:replace="${pageContent} :: content"></div>
+<main
+        class="flex-grow flex justify-center items-center py-8 gap-2"
+>
+    <div id="contentArea" th:replace="${pageContent} :: content"></div>
 </main>
 
 
@@ -93,6 +125,7 @@
     menuToggle.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
+
 </script>
 
 </body>

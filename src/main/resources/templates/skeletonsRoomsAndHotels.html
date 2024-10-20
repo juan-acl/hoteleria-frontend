@@ -3,30 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Skeleton</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <style>
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .skeleton {
-            background-color: #e2e8f0;
-            animation: pulse 0.8s infinite ease-in-out;
-        }
-    </style>
 </head>
-<body class="bg-gray-100 h-screen flex items-center justify-center">
+<body th:Fragment="content" class="bg-gray-100 h-screen flex items-center
+      justify-center">
 
 <!-- Skeleton Loader de pantalla completa -->
 <div class="w-full h-full items-center justify-center">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4 max-w-7xl mx-auto">
+    <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4
+        max-w-7xl mx-auto">
         <!-- Skeleton card 1 -->
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
             <div class="w-full h-48 skeleton"></div>
