@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -27,7 +28,7 @@ public class Home {
     @GetMapping("/")
     public String home(Model model) {
         try {
-            Set<HotelDto> hotels = hotelService.getAllHotels();
+            List<HotelDto> hotels = hotelService.getAllHotels();
         } catch (RestClientException e) {
             System.err.println("Error al hacer la petición al API: " + e.getMessage());
         }

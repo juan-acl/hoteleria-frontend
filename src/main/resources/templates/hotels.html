@@ -7,91 +7,96 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <style>
-        /* Agregar scroll cuando hay muchas tarjetas */
         .card-container {
-            max-height: 80vh; /* Ajustar según lo necesario */
-            overflow-y: auto; /* Habilitar scroll vertical */
+            max-height: 80vh;
+            overflow-y: auto;
         }
     </style>
 </head>
-<body>
+<body th:fragment="content">
+<div class="card-container p-4">
+    <div class="p-4 m-4 flex justify-end">
+        <button
+                class="bg-amber-600 text-white px-4 py-2 rounded-md shadow hover:bg-amber-700">
+            Crear hotel
+        </button>
+    </div>
+    
 
-<!-- Layout principal -->
-<div th:replace="layout :: content">
-    <!-- Contenido de la tarjeta de hotel -->
-    <div th:fragment="content" class="card-container p-4">
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Tarjeta de hotel (replica esta estructura para más tarjetas) -->
-            <div class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
-                <img class="w-full h-32 object-cover"
-                     src="https://via.placeholder.com/400x300"
-                     alt="Hotel Image">
-                <div class="p-4">
-                    <h2 class="text-xl font-bold text-gray-800">Hotel
-                        Nombre</h2>
-                    <p class="text-gray-600 mt-1">Ubicación: Ciudad, País</p>
-                    <p class="text-gray-600 mt-1">Precio por noche: $120</p>
-                    <p class="text-gray-600 mt-1">Calificación: ⭐⭐⭐⭐ (4.5/5)</p>
-                    <p class="text-gray-600 mt-2">Este hotel ofrece una estancia
-                        cómoda con excelentes instalaciones.</p>
-                    <div class="mt-4 flex justify-between items-center">
-                        <button onclick="openModal()"
-                                class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">
-                            Reservar
-                        </button>
-                        <a href="#"
-                           class="text-amber-600 hover:text-amber-500 font-medium">Ver
-                            detalles</a>
-                    </div>
+    <!-- Iterar sobre la lista de hoteles si hay elementos -->
+    <div th:if="${!#lists.isEmpty(hotels)}"
+         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div th:each="hotel : ${hotels}"
+             class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
+            <img class="w-full h-32 object-cover"
+                 th:src="${hotel.name}"
+                 alt="Hotel Image">
+            <div class="p-4">
+                <h2 class="text-xl font-bold text-gray-800"
+                    th:text="${hotel.name}">Hotel Nombre</h2>
+                <p class="text-gray-600 mt-1"
+                   th:text="'Ubicación: ' + ${hotel.name}">Ubicación:
+                    Ciudad, País</p>
+                <p class="text-gray-600 mt-1"
+                   th:text="'Precio por noche: $' + ${hotel.name}">
+                    Precio por noche: $120</p>
+                <p class="text-gray-600 mt-1"
+                   th:text="'Calificación: ⭐⭐⭐⭐ (' + ${hotel.name} + '/5)'">
+                    Calificación: ⭐⭐⭐⭐ (4.5/5)</p>
+                <p class="text-gray-600 mt-2" th:text="${hotel.name}">
+                    Este hotel ofrece una estancia cómoda con excelentes
+                    instalaciones.</p>
+                <div class="mt-4 flex justify-between items-center">
+                    <button onclick="openModal()"
+                            class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">
+                        Actualizar
+                    </button>
+                    <a href="#"
+                       class="text-amber-600 hover:text-amber-500 font-medium">Ver
+                        detalles</a>
                 </div>
             </div>
+        </div>
+    </div>
 
-
-            <!-- Modal -->
-            <div id="reservationModal"
-                 class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-white rounded-lg p-6 max-w-lg w-full">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-xl font-bold">Reservar habitación</h3>
-                        <button onclick="closeModal()"
-                                class="text-gray-600 hover:text-gray-900">
-                            &times;
-                        </button>
-                    </div>
-                    <p class="mt-4">Por favor, complete los detalles para
-                        realizar
-                        la
-                        reserva.</p>
-                    <form class="mt-6">
-                        <div class="mb-4">
-                            <label for="name"
-                                   class="block text-sm font-medium text-gray-700">Nombre
-                                completo</label>
-                            <input type="text" id="name"
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
-                        </div>
-                        <div class="mb-4">
-                            <label for="email"
-                                   class="block text-sm font-medium text-gray-700">Correo
-                                electrónico</label>
-                            <input type="email" id="email"
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
-                        </div>
-                        <div class="flex justify-end space-x-4">
-                            <button
-                                    type="button" onclick="closeModal()"
-                                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
-                                Cancelar
-                            </button>
-                            <button type="submit"
-                                    class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
-                                Confirmar Reserva
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <!-- Modal -->
+    <div id="reservationModal"
+         class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold">Reservar habitación</h3>
+                <button onclick="closeModal()"
+                        class="text-gray-600 hover:text-gray-900">&times;
+                </button>
             </div>
+            <p class="mt-4">Por favor, complete los detalles para realizar la
+                reserva.</p>
+            <form class="mt-6">
+                <div class="mb-4">
+                    <label for="name"
+                           class="block text-sm font-medium text-gray-700">Nombre
+                        completo</label>
+                    <input type="text" id="name"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email"
+                           class="block text-sm font-medium text-gray-700">Correo
+                        electrónico</label>
+                    <input type="email" id="email"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal()"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
+                        Confirmar Reserva
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

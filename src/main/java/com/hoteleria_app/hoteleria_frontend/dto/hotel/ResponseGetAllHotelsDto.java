@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,5 +16,5 @@ public class ResponseGetAllHotelsDto {
     public int status;
     public String message;
     public int count;
-    public HotelDto[] hotels;
+    public List<HotelDto> hotels;
 }
