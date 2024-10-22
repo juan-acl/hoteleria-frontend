@@ -17,11 +17,12 @@
 <div class="card-container p-4">
     <div class="p-4 m-4 flex justify-end">
         <button
+                onclick="openModal()"
                 class="bg-amber-600 text-white px-4 py-2 rounded-md shadow hover:bg-amber-700">
             Crear hotel
         </button>
     </div>
-    
+
 
     <!-- Iterar sobre la lista de hoteles si hay elementos -->
     <div th:if="${!#lists.isEmpty(hotels)}"
@@ -29,21 +30,18 @@
         <div th:each="hotel : ${hotels}"
              class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
             <img class="w-full h-32 object-cover"
-                 th:src="${hotel.name}"
+                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-60vegpRLheoAWYwRj2QH7U3gHb0vBdvIEQ&s"
                  alt="Hotel Image">
             <div class="p-4">
                 <h2 class="text-xl font-bold text-gray-800"
                     th:text="${hotel.name}">Hotel Nombre</h2>
                 <p class="text-gray-600 mt-1"
-                   th:text="'Ubicación: ' + ${hotel.name}">Ubicación:
+                   th:text="'Ubicación: ' + ${hotel.address}">Ubicación:
                     Ciudad, País</p>
                 <p class="text-gray-600 mt-1"
-                   th:text="'Precio por noche: $' + ${hotel.name}">
-                    Precio por noche: $120</p>
-                <p class="text-gray-600 mt-1"
-                   th:text="'Calificación: ⭐⭐⭐⭐ (' + ${hotel.name} + '/5)'">
+                   th:text="'Calificación: ⭐⭐⭐⭐ (' + ${hotel.rating} + '/5)'">
                     Calificación: ⭐⭐⭐⭐ (4.5/5)</p>
-                <p class="text-gray-600 mt-2" th:text="${hotel.name}">
+                <p class="text-gray-600 mt-2" th:text="${hotel.description}">
                     Este hotel ofrece una estancia cómoda con excelentes
                     instalaciones.</p>
                 <div class="mt-4 flex justify-between items-center">
@@ -51,9 +49,15 @@
                             class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">
                         Actualizar
                     </button>
-                    <a href="#"
-                       class="text-amber-600 hover:text-amber-500 font-medium">Ver
-                        detalles</a>
+                    <form action="/deleteHotel" method="POST"
+                          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este hotel?');">
+                        <input type="hidden" name="id_hotel"
+                               th:value="${hotel.id_hotel}"/>
+                        <button type="submit"
+                                class="text-amber-600 hover:text-amber-500 font-medium">
+                            Eliminar
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,26 +68,52 @@
          class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-lg w-full">
             <div class="flex justify-between items-center">
-                <h3 class="text-xl font-bold">Reservar habitación</h3>
+                <h3 class="text-xl font-bold">Crear hotel</h3>
                 <button onclick="closeModal()"
                         class="text-gray-600 hover:text-gray-900">&times;
                 </button>
             </div>
-            <p class="mt-4">Por favor, complete los detalles para realizar la
-                reserva.</p>
-            <form class="mt-6">
+            <p class="mt-4">Por favor, complete los campos para crear un hotel
+                .</p>
+            <form class="mt-6" th:action="@{/hotels}" method="POST"
+                  onsubmit="showLoaderFunc()">
                 <div class="mb-4">
                     <label for="name"
                            class="block text-sm font-medium text-gray-700">Nombre
                         completo</label>
-                    <input type="text" id="name"
+                    <input type="text" id="name" name="name"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="description"
+                           class="block text-sm font-medium text-gray-700">Descripcion</label>
+                    <input type="text" id="description" name="description"
                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
                 </div>
                 <div class="mb-4">
                     <label for="email"
                            class="block text-sm font-medium text-gray-700">Correo
-                        electrónico</label>
-                    <input type="email" id="email"
+                        electronico</label>
+                    <input type="text" id="email" name="email"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="address"
+                           class="block text-sm font-medium text-gray-700">Direccion</label>
+                    <input type="text" id="address" name="address"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="phone"
+                           class="block text-sm font-medium text-gray-700">Telefono</label>
+                    <input type="text" id="phone" name="phone"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="rating"
+                           class="block text-sm font-medium text-gray-700">Rating</label>
+                    <input type="number" id="rating" name="rating" min="1"
+                           max="5"
                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
                 </div>
                 <div class="flex justify-end space-x-4">
@@ -93,12 +123,42 @@
                     </button>
                     <button type="submit"
                             class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
-                        Confirmar Reserva
+                        Confirmar
                     </button>
                 </div>
             </form>
+
         </div>
     </div>
+
+    <div th:if="${session.errorMessage}"
+         th:with="message=${session.errorMessage}">
+        <script>
+            const message = "[[${session.errorMessage}]]";
+            const icon = "[[${session.icon}]]";
+
+            Swal.fire({
+                title: icon === "error" ? "Error" : "Éxito",
+                text: message,
+                icon,
+                confirmButtonText: 'OK',
+                position: "center",
+                color: "white",
+                background: "rgba(0,0,0,0.9)",
+                toast: true,
+                timer: 2000,
+                allowEscapeKey: true,
+            }).then(() => {
+                fetch("clearSession", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            })
+        </script>
+    </div>
+
 </div>
 
 <script>
