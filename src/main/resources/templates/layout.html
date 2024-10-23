@@ -47,17 +47,9 @@
                 <a th:href="@{/hotels}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Reporteria</a>
-                <a th:href="@{/myReservations}"
-                   th:if="${session.token != null and session.token != ''}"
-                   class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis
-                    reservaciones</a>
                 <a th:href="@{/rooms}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Habitaciones</a>
-                <a th:href="@{/me}"
-                   th:if="${session.token != null and session.token != ''}"
-                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mi
-                    perfil</a>
                 <a th:href="@{/myReservations}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis
@@ -70,6 +62,10 @@
                    th:if="${session.token == null or session.token == ''}"
                    class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium"
                 >Iniciar sesión </a>
+                <a th:href="@{/me}"
+                   th:if="${session.token != null and session.token != ''}"
+                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mi
+                    perfil</a>
             </div>
 
             <!-- Hamburger menu for mobile view -->
@@ -125,6 +121,22 @@
     menuToggle.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
+
+    function showLoader() {
+        document.getElementById('loader').classList.remove('hidden');
+    }
+
+    function hideLoader() {
+        document.getElementById('loader').classList.add('hidden');
+    }
+
+    window.onload = function () {
+        showLoader();
+
+        setTimeout(function () {
+            hideLoader();
+        }, 500);
+    }
 
 </script>
 

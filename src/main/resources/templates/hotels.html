@@ -45,12 +45,18 @@
                     Este hotel ofrece una estancia cómoda con excelentes
                     instalaciones.</p>
                 <div class="mt-4 flex justify-between items-center">
-                    <button onclick="openModal()"
+                    <button
+                            th:attr="onclick='openEditModal(' + ${hotel.id_hotel} + ', \''
+                  + ${hotel.name} + '\', \''
+                  + ${hotel.description} + '\', \''
+                  + ${hotel.email} + '\', \''
+                  + ${hotel.address} + '\', \''
+                  + ${hotel.phone} + '\', ' + ${hotel.rating} + ')'"
                             class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">
                         Actualizar
                     </button>
                     <form action="/deleteHotel" method="POST"
-                          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este hotel?');">
+                          onsubmit="confirmDelete(event);">
                         <input type="hidden" name="id_hotel"
                                th:value="${hotel.id_hotel}"/>
                         <button type="submit"
@@ -58,6 +64,7 @@
                             Eliminar
                         </button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -131,6 +138,76 @@
         </div>
     </div>
 
+    <!-- Modal Edicion -->
+    <div id="reservationModalEdicion"
+         class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold">Editar hotel</h3>
+                <button onclick="openModalEdicion()"
+                        class="text-gray-600 hover:text-gray-900">&times;
+                </button>
+            </div>
+            <p class="mt-4">Por favor, complete los campos para poder editar el
+                hotel
+                .</p>
+            <form class="mt-6" th:action="@{/updateHotel}" method="POST"
+                  onsubmit="showLoaderFunc()">
+                <div class="mb-4">
+                    <label for="name"
+                           class="block text-sm font-medium text-gray-700">Nombre
+                        completo</label>
+                    <input type="text" id="nameE" name="name"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <input type="hidden" name="id_hotel" id="hotelId"/>
+                    <label for="description"
+                           class="block text-sm font-medium text-gray-700">Descripcion</label>
+                    <input type="text" id="descriptionE" name="description"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email"
+                           class="block text-sm font-medium text-gray-700">Correo
+                        electronico</label>
+                    <input type="text" id="emailE" name="email"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="address"
+                           class="block text-sm font-medium text-gray-700">Direccion</label>
+                    <input type="text" id="addressE" name="address"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="phone"
+                           class="block text-sm font-medium text-gray-700">Telefono</label>
+                    <input type="text" id="phoneE" name="phone"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="mb-4">
+                    <label for="rating"
+                           class="block text-sm font-medium text-gray-700">Rating</label>
+                    <input type="number" id="ratingE" name="rating" min="1"
+                           max="5"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModalEdicion()"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
+                        Confirmar
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
     <div th:if="${session.errorMessage}"
          th:with="message=${session.errorMessage}">
         <script>
@@ -159,9 +236,44 @@
         </script>
     </div>
 
+
+</div>
+<!-- Loader -->
+<div id="loader"
+     class="hidden fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-50">
+    <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-white"
+         role="status">
+        <span class="visually-hidden"></span>
+    </div>
 </div>
 
 <script>
+
+    function confirmDelete(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            position: "center",
+            color: "white",
+            background: "rgba(0,0,0,0.9)",
+            toast: true,
+            allowEscapeKey: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                showLoaderFunc()
+                event.target.submit();
+            }
+        });
+    }
+
+
     function openModal() {
         document.getElementById('reservationModal').classList.remove('hidden');
     }
@@ -169,7 +281,59 @@
     function closeModal() {
         document.getElementById('reservationModal').classList.add('hidden');
     }
+
+    function openModalEdicion() {
+        document.getElementById('reservationModalEdicion').classList.remove('hidden');
+    }
+
+    function closeModalEdicion() {
+        document.getElementById('reservationModalEdicion').classList.add('hidden');
+    }
+
+    function openEditModal(id_hotel, name, description, email, address, phone, rating) {
+        document.getElementById("hotelId").value = id_hotel;
+        document.getElementById("nameE").value = name;
+        document.getElementById("descriptionE").value = description;
+        document.getElementById("emailE").value = email;
+        document.getElementById("addressE").value = address;
+        document.getElementById("phoneE").value = phone;
+        document.getElementById("ratingE").value = rating;
+        openModalEdicion();
+    }
+
+    function showLoaderFunc() {
+        document.getElementById("loader").classList.remove("hidden");
+    }
+
+    function hideLoaderFunc() {
+        document.getElementById("loader").classList.add("hidden");
+    }
+
+
+    window.onload = function () {
+        showLoaderFunc();
+
+        setTimeout(function () {
+            hideLoaderFunc();
+        }, 500);
+    }
+
+
 </script>
+
+<!-- Agrega el siguiente CSS para el spinner -->
+<style>
+    .loader {
+        border-top-color: #3498db;
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 </body>
 </html>
