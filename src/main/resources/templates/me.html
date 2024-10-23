@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +18,12 @@
                 <img class="w-24 h-24 rounded-full border-2 border-amber-500"
                      src="https://via.placeholder.com/100" alt="Foto de Perfil">
                 <div class="ml-6">
-                    <h2 class="text-3xl font-semibold text-gray-800">Juan
-                        Pérez</h2>
-                    <p class="text-gray-600">juan.perez@example.com</p>
+                    <h2 class="text-3xl font-semibold text-gray-800"
+                        th:text="${userProfile.name} + ' ' + ${userProfile.lastname}"
+                    ></h2>
+                    <p class="text-gray-600"
+                       th:text="${userProfile.email}"
+                    ></p>
                 </div>
             </div>
 
@@ -30,13 +33,17 @@
                 <div>
                     <label class="block text-gray-700 font-medium mb-1">Número
                         de Teléfono</label>
-                    <p class="bg-gray-100 border border-gray-300 rounded p-3">
-                        +34 600 123 456</p>
+                    <p class="bg-gray-100 border border-gray-300 rounded p-3"
+                       th:text="${userProfile.phone}"
+                    >
+                    </p>
                 </div>
                 <div>
                     <label class="block text-gray-700 font-medium mb-1">Dirección</label>
-                    <p class="bg-gray-100 border border-gray-300 rounded p-3">
-                        Calle Falsa 123, Ciudad, País</p>
+                    <p class="bg-gray-100 border border-gray-300 rounded p-3"
+                    >
+                        Ciudad de Guatemala, Guatemala
+                    </p>
                 </div>
             </div>
             <div class="flex justify-between">
@@ -47,10 +54,13 @@
                     </button>
                 </div>
                 <div class="mt-6 flex justify-end">
-                    <button type="submit"
-                            style="background-color: #f59e0b; color: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                        Cerrar Sesión
-                    </button>
+                    <form action="logout" method="get">
+                        <button type="submit"
+                                style="background-color: #f59e0b; color: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </div>
