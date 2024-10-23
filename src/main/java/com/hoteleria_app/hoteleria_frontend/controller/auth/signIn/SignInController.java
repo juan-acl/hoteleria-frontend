@@ -45,7 +45,7 @@ public class SignInController {
             }
             request.getSession().setAttribute("token", token.getToken());
             session.setAttribute("icon", "success");
-            return "redirect:/";
+            return "redirect:/hotels";
         } catch (Exception e) {
             session.setAttribute("icon", "error");
             session.setAttribute("errorMessage", "An error occurred: ");

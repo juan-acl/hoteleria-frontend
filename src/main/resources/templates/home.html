@@ -130,7 +130,9 @@
         <p>Tu refugio perfecto para un descanso inolvidable.</p>
         <a href="/signIn" class="btn">Registrarse</a>
         <a href="/signIn" class="btn">Iniciar Sesion</a>
-        <a href="/hotels" class="btn">Ver hoteles</a>
+        <a
+                th:if="${session.token != null and session.token != ''}"
+                href="/hotels" class="btn">Ver hoteles</a>
     </div>
 </header>
 

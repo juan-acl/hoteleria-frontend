@@ -43,6 +43,7 @@
             <!-- Links for desktop view -->
             <div class=" sm:flex space-x-8">
                 <a th:href="@{/hotels}"
+                   th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Hoteles</a>
                 <a th:href="@{/hotels}"
                    th:if="${session.token != null and session.token != ''}"
@@ -85,8 +86,10 @@
     <!-- Mobile menu, shown when hamburger icon is clicked -->
     <div id="mobile-menu" class="sm:hidden hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <a th:href="@{/hotels}"
-               class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Hoteles</a>
+            <a
+                    th:href="@{/hotels}"
+                    th:if=" ${session.token != null and session.token != ''}"
+                    class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Hoteles</a>
             <a th:href="@{/rooms}"
                class="block text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-base font-medium">Habitaciones</a>
             <a th:href="@{/report}"
