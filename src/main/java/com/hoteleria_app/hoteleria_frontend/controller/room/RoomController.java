@@ -1,18 +1,15 @@
 package com.hoteleria_app.hoteleria_frontend.controller.room;
 
-import com.hoteleria_app.hoteleria_frontend.config.JWTEception;
 import com.hoteleria_app.hoteleria_frontend.dto.room.RoomsDto;
 import com.hoteleria_app.hoteleria_frontend.service.reservation.ReservationService;
 import com.hoteleria_app.hoteleria_frontend.service.room.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,9 +40,6 @@ public class RoomController {
             List<RoomsDto> rooms = roomService.getRoomsByHotel(id_hotel);
             model.addAttribute("rooms", rooms);
             return "layout";
-        } catch (JWTEception e) {
-            request.getSession().removeAttribute("token");
-            return "redirect:/signIn";
         } catch (Exception e) {
             model.addAttribute("pageContent", "roomsByHotel");
             return "layout";
@@ -67,7 +61,11 @@ public class RoomController {
                             finalDate,
                             idRoom);
             System.out.println("RESPONSE: " + response);
-            return "redirect:/myReservations";
+            model.addAttribute("pageContent", "roomsByHotel");
+            if (response.length() > 0) {
+                return "redirect:/myReservations";
+            }
+            return "layout";
         } catch (Exception e) {
             model.addAttribute("pageContent", "roomsByHotel");
             return "layout";

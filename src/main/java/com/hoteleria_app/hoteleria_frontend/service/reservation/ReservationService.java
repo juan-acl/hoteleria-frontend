@@ -1,6 +1,7 @@
 package com.hoteleria_app.hoteleria_frontend.service.reservation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hoteleria_app.hoteleria_frontend.config.JWTEception;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.UserProfileDto;
 import com.hoteleria_app.hoteleria_frontend.dto.reservation.RequestCreateReservationDto;
 import com.hoteleria_app.hoteleria_frontend.dto.reservation.ResponseReservationDto;
@@ -52,8 +53,7 @@ public class ReservationService {
                             UserProfileDto.class);
             return userProfileDto;
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+            throw new JWTEception("JWT expired");
         }
     }
 
@@ -64,9 +64,9 @@ public class ReservationService {
     ) {
         try {
             String token = (String) request.getSession().getAttribute("token");
-
+            System.out.println("Veamos el token si esta bniemo" + token);
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + token);
+            //headers.set("Authorization", "Bearer " + token);
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             RoomReservationDto roomReservationDto = new RoomReservationDto();
@@ -76,8 +76,7 @@ public class ReservationService {
 
             RequestCreateReservationDto requestCreateReservationDto =
                     new RequestCreateReservationDto();
-            UserProfileDto userProfile = getProfile();
-            requestCreateReservationDto.setId_user(userProfile.getCurrentUser().getId_user());
+            requestCreateReservationDto.setId_user(2l);
             requestCreateReservationDto.setRoom_reservations(List.of(roomReservationDto));
 
             HttpEntity<RequestCreateReservationDto> entity =
@@ -97,6 +96,9 @@ public class ReservationService {
                 return "Reservación creada con éxito";
             }
             return responseReservationDto.getMessage();
+        } catch (JWTEception error) {
+            request.getSession().removeAttribute("token");
+            return "Error al crear la reservación";
         } catch (Exception e) {
             System.out.println("Error en la reserva: " + e.getMessage());
             return "Error al crear la reservación";

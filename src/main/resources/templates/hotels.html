@@ -29,8 +29,10 @@
          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div th:each="hotel : ${hotels}"
              class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
-            <a th:href="@{'/roomsByHotel/' + ${hotel.id_hotel}}"
-               class="block" onclick="showLoaderFunc()">
+            <a
+                    th:href="@{'/roomsByHotel/' + ${hotel.id_hotel}}"
+                    class="block"
+            >
                 <!-- Enlace que redirige a la página del hotel -->
                 <img class="w-full h-32 object-cover"
                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-60vegpRLheoAWYwRj2QH7U3gHb0vBdvIEQ&s"
@@ -303,6 +305,7 @@
         document.getElementById("addressE").value = address;
         document.getElementById("phoneE").value = phone;
         document.getElementById("ratingE").value = rating;
+        event.stopPropagation()
         openModalEdicion();
     }
 
@@ -326,7 +329,6 @@
 
 </script>
 
-<!-- Agrega el siguiente CSS para el spinner -->
 <style>
     .loader {
         border-top-color: #3498db;

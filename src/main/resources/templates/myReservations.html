@@ -7,10 +7,9 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <style>
-        /* Agregar scroll cuando hay muchas tarjetas */
         .card-container {
-            max-height: 80vh; /* Ajustar según lo necesario */
-            overflow-y: auto; /* Habilitar scroll vertical */
+            max-height: 80vh;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -22,38 +21,39 @@
 
     <div th:fragment="content" class="card-container p-4">
         <!-- Verifica si hay reservaciones -->
-        <div th:if="${reservaciones != null and reservaciones.size() > 0}">
+        <div th:if="${reservaciones != null and !reservaciones.isEmpty()}">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- Tarjeta de reservación -->
-                <div class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
+                <div th:each="reservacion : ${reservaciones}"
+                     class="bg-white shadow-lg rounded-lg max-w-xs overflow-hidden mx-auto">
                     <img class="w-full h-32 object-cover"
-                         src="https://via.placeholder.com/400x300"
-                         alt="Hotel Image">
+                         src="https://reservacionesth.com/wp-content/uploads/2023/08/Logo-PNG-Reservaciones-TH-2.png"
+                         alt="Imagen del Hotel">
                     <div class="p-4">
                         <h2 class="text-xl font-bold text-gray-800"
-                            th:text="${reservacion.hotelNombre}">Hotel
-                            Nombre</h2>
+                            th:text="${'Hotel ' + reservacion.emitionDate}">
+                            Hotel Nombre</h2>
                         <p class="text-gray-600 mt-1">
-                            <strong>Fecha de Entrada:</strong> <span
-                                th:text="${reservacion.fechaEntrada}">2024-10-20</span><br>
-                            <strong>Fecha de Salida:</strong> <span
-                                th:text="${reservacion.fechaSalida}">2024-10-25</span><br>
+                            <strong>Fecha de Emisión:</strong>
+                            <span th:text="${#temporals.format(reservacion.emitionDate, 'yyyy-MM-dd HH:mm:ss')}">2024-10-25</span><br>
                             <strong>Estado:</strong> <span
-                                th:text="${reservacion.estado}">Confirmado</span>
+                                th:text="${reservacion.status}">Confirmado</span><br>
+                            <strong>Total:</strong> <span
+                                th:text="${reservacion.total}">480.0</span>
                         </p>
                         <p class="text-gray-600 mt-2">
-                            <small th:text="'Reservación hecha el ' + ${reservacion.fechaCreacion}">Reservación
-                                hecha el 2024-10-01</small>
+                            <small th:text="'Reservación hecha el ' + ${#temporals.format(reservacion.emitionDate, 'yyyy-MM-dd')}">
+                                Reservación hecha el 2024-10-01</small>
                         </p>
-                        <div class="mt-4 flex justify-between items-center">
-                            <button onclick="openModal()"
-                                    class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">
-                                Reservar
-                            </button>
-                            <a href="#"
-                               class="text-amber-600 hover:text-amber-500 font-medium">Ver
-                                detalles</a>
-                        </div>
+                        <!--                        <div class="mt-4 flex justify-between items-center">-->
+                        <!--                            <button onclick="openModal()"-->
+                        <!--                                    class="bg-amber-600 text-white px-2 py-1 rounded-md shadow hover:bg-amber-700">-->
+                        <!--                                Reservar-->
+                        <!--                            </button>-->
+                        <!--                            <a href="#"-->
+                        <!--                               class="text-amber-600 hover:text-amber-500 font-medium">Ver-->
+                        <!--                                detalles</a>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
                 <!-- Fin de la tarjeta de reservación -->
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Mensaje en caso de que no haya reservaciones -->
-        <div th:if="${reservaciones == null or reservaciones.size() == 0}">
+        <div th:if="${reservaciones == null or reservaciones.isEmpty()}">
             <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg text-center mt-6">
                 No tienes reservaciones pendientes.
             </div>

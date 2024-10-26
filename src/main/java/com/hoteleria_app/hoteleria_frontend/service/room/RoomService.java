@@ -38,7 +38,6 @@ public class RoomService {
             GetRoomsByIdHotel getRoomsByIdHotel = new GetRoomsByIdHotel();
             getRoomsByIdHotel.setId_hotel(id_hotel);
 
-            // Cambia aquí para usar ResponseEntity<List<RoomsDto>>
             ResponseEntity<List<RoomsDto>> response =
                     restTemplate.exchange(BASE_URL + CURRENT_PATH +
                                     "/getRoomsByHotelId",
@@ -47,7 +46,6 @@ public class RoomService {
                             new ParameterizedTypeReference<List<RoomsDto>>() {
                             });
 
-            // Maneja la respuesta
             if (response.getStatusCode() == HttpStatus.OK) {
                 return response.getBody();
             } else {

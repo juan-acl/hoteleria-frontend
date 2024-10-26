@@ -8,5 +8,6 @@ import java.time.LocalDateTime;
 public class ReservationProfile {
     private Long id;
     private LocalDateTime emitionDate;
+    private String status;
     private Double total;
 }

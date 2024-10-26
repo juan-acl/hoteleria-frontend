@@ -1,7 +1,10 @@
 package com.hoteleria_app.hoteleria_frontend.controller.profile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.hoteleria_app.hoteleria_frontend.config.JWTEception;
 import com.hoteleria_app.hoteleria_frontend.dto.auth.UserProfileDto;
+import com.hoteleria_app.hoteleria_frontend.service.reservation.ReservationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -20,13 +23,17 @@ public class ProfileController {
     public final String CURRENT_PATH = "/user/me";
     public final RestTemplate restTemplate;
     private final HttpServletRequest request;
-    ObjectMapper objectMapper = new ObjectMapper();
+    private ReservationService reservationService;
+    private final ObjectMapper objectMapper;
 
-
-    public ProfileController(HttpServletRequest request,
-                             RestTemplate restTemplate) {
+    public ProfileController(
+            HttpServletRequest request,
+            RestTemplate restTemplate
+    ) {
         this.request = request;
         this.restTemplate = restTemplate;
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @GetMapping("/me")
@@ -52,19 +59,33 @@ public class ProfileController {
                 UserProfileDto userProfileDto =
                         objectMapper.readValue(response.getBody(),
                                 UserProfileDto.class);
-                System.out.println("Validando como viene el user" + userProfileDto.getCurrentUser());
                 model.addAttribute("userProfile",
                         userProfileDto.getCurrentUser());
             } else {
                 model.addAttribute("error", "Error fetching user profile");
             }
+            model.addAttribute("pageContent", "me");
+            return "layout";
+        } catch (JWTEception jwtException) {
+            request.getSession().removeAttribute("token");
+            return "redirect:/signIn";
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             model.addAttribute("error", "An error occurred: " + e.getMessage());
-        }
+            model.addAttribute("pageContent", "me");
+            String errorMessage = e.getMessage();
+            System.out.println("Error: " + errorMessage);
 
-        model.addAttribute("pageContent", "me");
-        return "layout";
+            // Verifica si el mensaje de error indica que el token ha expirado
+            if (errorMessage != null && errorMessage.contains("JWT expired")) {
+                request.getSession().removeAttribute("token");
+                return "redirect:/signIn";
+            } else {
+                model.addAttribute("error",
+                        "An error occurred: " + errorMessage);
+            }
+            return "redirect:/signIn";
+        }
     }
 
     @GetMapping("/logout")
