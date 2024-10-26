@@ -38,6 +38,7 @@ public class SignInController {
         try {
             SignInDto userSignIn = new SignInDto(email, password);
             ResponseToken token = authService.signIn(userSignIn);
+            System.out.println("Token: " + token.getToken());
             if (token.getToken() == null) {
                 session.setAttribute("icon", "error");
                 session.setAttribute("errorMessage", token.getMessage());
@@ -47,6 +48,7 @@ public class SignInController {
             session.setAttribute("icon", "success");
             return "redirect:/hotels";
         } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
             session.setAttribute("icon", "error");
             session.setAttribute("errorMessage", "An error occurred: ");
             return "signIn";

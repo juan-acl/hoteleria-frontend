@@ -4,6 +4,7 @@ import com.hoteleria_app.hoteleria_frontend.dto.room.RoomsDto;
 import com.hoteleria_app.hoteleria_frontend.service.reservation.ReservationService;
 import com.hoteleria_app.hoteleria_frontend.service.room.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,17 @@ public class RoomController {
     private final RoomService roomService;
     private final ReservationService reservationService;
     private final HttpServletRequest request;
+    private final HttpSession session;
 
     public RoomController(RoomService roomService,
                           ReservationService reservationService,
-                          HttpServletRequest request
+                          HttpServletRequest request,
+                          HttpSession session
     ) {
         this.roomService = roomService;
         this.reservationService = reservationService;
         this.request = request;
+        this.session = session;
     }
 
     @GetMapping("/roomsByHotel" + "/{id_hotel}")
@@ -60,6 +64,8 @@ public class RoomController {
                     reservationService.createReservation(initialDate,
                             finalDate,
                             idRoom);
+            session.setAttribute("errorMessage", "Error al eliminar el " +
+                    "hotel");
             System.out.println("RESPONSE: " + response);
             model.addAttribute("pageContent", "roomsByHotel");
             if (response.length() > 0) {

@@ -34,7 +34,7 @@ public class AuthService {
             }
             return new ResponseToken(responseSignInDto.getToken(), "");
         } catch (Exception e) {
-            return new ResponseToken(null, "E   rror al iniciar sesión");
+            return new ResponseToken(null, "Error al iniciar sesión");
         }
     }
 

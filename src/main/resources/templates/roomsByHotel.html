@@ -95,6 +95,7 @@
             </form>
         </div>
     </div>
+    
     <div id="loader"
          class="hidden fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-50">
         <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-white"
@@ -120,12 +121,15 @@
         });
 
         function openModalReservation(roomId) {
-            if (!roomId) {
-                alert("No se ha seleccionado una habitación válida.");
-            }
             console.log("Opening modal for room ID:", roomId); // Agregado para depurar
             document.getElementById('reservationModal').classList.remove('hidden');
             document.getElementById('idRoom').value = roomId;
+        }
+
+        function clearState() {
+            document.getElementById('initialDate').value = '';
+            document.getElementById('finalDate').value = '';
+            closeModal()
         }
 
         function closeModal() {
@@ -133,6 +137,7 @@
         }
 
         function showLoaderFunc() {
+            clearState()
             document.getElementById("loader").classList.remove("hidden");
         }
 
