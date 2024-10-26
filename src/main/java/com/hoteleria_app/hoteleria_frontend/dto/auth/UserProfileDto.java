@@ -1,5 +1,6 @@
 package com.hoteleria_app.hoteleria_frontend.dto.auth;
 
+import com.hoteleria_app.hoteleria_frontend.dto.reservation.ReservationProfile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class UserProfileDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CurrentUserDto {
-        private int id_user;
+        private Long id_user;
         private String name;
         private String lastname;
         private int active;
@@ -32,7 +33,8 @@ public class UserProfileDto {
         private List<String> accesses; // Assuming accesses is a list of strings
         private List<String> permissions; // Assuming permissions is a list
         // of strings
-        private List<String> reservations; // Assuming reservations is a list
+        private List<ReservationProfile> reservations; // Assuming
+        // reservations is a list
         // of strings
         private String username;
         private List<String> authorities; // Assuming authorities is a list

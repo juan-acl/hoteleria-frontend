@@ -133,5 +133,4 @@ public class HotelController {
             return "layout";
         }
     }
-
 }

@@ -45,12 +45,9 @@
                 <a th:href="@{/hotels}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Hoteles</a>
-                <a th:href="@{/hotels}"
+                <a th:href="@{/reports}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Reporteria</a>
-                <a th:href="@{/rooms}"
-                   th:if="${session.token != null and session.token != ''}"
-                   class="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Habitaciones</a>
                 <a th:href="@{/myReservations}"
                    th:if="${session.token != null and session.token != ''}"
                    class="text-gray-900 hover:text-gra y-700 px-3 py-2 rounded-md text-sm font-medium">Mis

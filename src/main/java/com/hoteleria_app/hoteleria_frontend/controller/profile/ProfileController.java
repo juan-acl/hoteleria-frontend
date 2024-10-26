@@ -52,7 +52,7 @@ public class ProfileController {
                 UserProfileDto userProfileDto =
                         objectMapper.readValue(response.getBody(),
                                 UserProfileDto.class);
-                System.out.println("Response:sasdasdadad " + userProfileDto.getCurrentUser());
+                System.out.println("Validando como viene el user" + userProfileDto.getCurrentUser());
                 model.addAttribute("userProfile",
                         userProfileDto.getCurrentUser());
             } else {

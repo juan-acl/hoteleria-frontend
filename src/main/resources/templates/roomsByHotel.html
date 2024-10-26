@@ -10,29 +10,38 @@
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 <div th:Fragment="content">
     <!-- Tarjeta de habitación -->
-    <div class="bg-white shadow-lg rounded-lg max-w-sm overflow-hidden">
-        <img class="w-full h-48 object-cover"
-             src="https://via.placeholder.com/400x300" alt="Room Image">
+    <div class="flex flex-wrap justify-center">
+        <div th:each="room : ${rooms}"
+             class="bg-white shadow-lg rounded-lg max-w-sm overflow-hidden m-4">
+            <img class="w-full h-48 object-cover"
+                 src="https://preciadoshotel.com/wp-content/uploads/2019/12/O2A8483-1-700x466.jpg"
+                 alt="Room Image">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800"
+                    th:text="${room.name}">
+                    Habitación Deluxe</h2>
+                <p class="text-gray-600 mt-2">Tipo de habitación: <span
+                        th:text="${room.idRoomType.name}">Doble</span></p>
+                <p class="text-gray-600 mt-2">Precio por noche: $<span
+                        th:text="${room.price}">150</span></p>
+                <p class="text-gray-600 mt-2">Capacidad: <span
+                        th:text="${room.idRoomType.maximumPeople}">2</span>
+                    personas
+                </p>
+                <p class="text-gray-600 mt-4"
+                   th:text="${room.idRoomType.description}">Esta habitación
+                    ofrece
+                    una experiencia de lujo...</p>
 
-        <div class="p-6">
-            <h2 class="text-2xl font-bold text-gray-800">Habitación Deluxe</h2>
-            <p class="text-gray-600 mt-2">Tipo de habitación: Doble</p>
-            <p class="text-gray-600 mt-2">Precio por noche: $150</p>
-            <p class="text-gray-600 mt-2">Capacidad: 2 personas</p>
-            <p class="text-gray-600 mt-4">Esta habitación ofrece una experiencia
-                de
-                lujo con vista al mar y acceso a todas las comodidades del
-                hotel.</p>
+                <div class="mt-6 flex justify-between items-center">
+                    <!-- Botón para reservar -->
+                    <button
 
-            <div class="mt-6 flex justify-between items-center">
-                <!-- Botón para abrir el modal -->
-                <button onclick="openModal()"
-                        class="bg-amber-600 text-white px-4 py-2 rounded-md shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-                    Reservar
-                </button>
-                <a href="#"
-                   class="text-amber-600 hover:text-amber-500 font-medium">Ver
-                    detalles</a>
+                            th:attr="onclick='openModalReservation(' + ${room.id} + ')'"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                        Reservar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -48,44 +57,29 @@
                 </button>
             </div>
             <p class="mt-4">Complete los detalles para realizar la reserva.</p>
-            <form class="mt-6">
+            <form
+                    th:action="@{/createReservation}"
+                    method="POST" class="mt-6">
                 <div class="mb-4">
-                    <label for="name"
-                           class="block text-sm font-medium text-gray-700">Nombre
-                        completo</label>
-                    <input type="text" id="name"
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
-                </div>
-                <div class="mb-4">
-                    <label for="email"
-                           class="block text-sm font-medium text-gray-700">Correo
-                        electrónico</label>
-                    <input type="email" id="email"
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
-                </div>
-                <div class="mb-4">
-                    <label for="checkin"
+                    <input type="hidden" name="idRoom" id="idRoom">
+                    <label for="initialDate"
                            class="block text-sm font-medium text-gray-700">Fecha
-                        de
-                        check-in</label>
-                    <input type="date" id="checkin"
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                        de check-in</label>
+                    <input
+                            type="datetime-local"
+                            id="initialDate"
+                            name="initialDate"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
                 </div>
                 <div class="mb-4">
-                    <label for="checkout"
+                    <label for="finalDate"
                            class="block text-sm font-medium text-gray-700">Fecha
-                        de
-                        check-out</label>
-                    <input type="date" id="checkout"
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
-                </div>
-                <div class="mb-4">
-                    <label for="guests"
-                           class="block text-sm font-medium text-gray-700">Número
-                        de
-                        huéspedes</label>
-                    <input type="number" id="guests" min="1" max="4"
-                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
+                        de check-out</label>
+                    <input
+                            type="datetime-local"
+                            id="finalDate"
+                            name="finalDate"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-amber-500 focus:border-amber-500">
                 </div>
                 <div class="flex justify-end space-x-4">
                     <button type="button" onclick="closeModal()"
@@ -93,6 +87,7 @@
                         Cancelar
                     </button>
                     <button type="submit"
+                            onsubmit="showLoaderFunc()"
                             class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">
                         Confirmar Reserva
                     </button>
@@ -100,18 +95,60 @@
             </form>
         </div>
     </div>
-
+    <div id="loader"
+         class="hidden fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-50">
+        <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-white"
+             role="status">
+            <span class="visually-hidden"></span>
+        </div>
+    </div>
     <!-- Scripts para abrir y cerrar el modal -->
     <script>
-        function openModal() {
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener la fecha actual en formato YYYY-MM-DD
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+            const yyyy = today.getFullYear();
+
+            // Formatear la fecha como YYYY-MM-DD
+            const formattedDate = yyyy + '-' + mm + '-' + dd;
+
+            // Establecer el atributo min del input
+            document.getElementById('finalDate').setAttribute('min', formattedDate);
+            document.getElementById('initialDate').setAttribute('min', formattedDate);
+        });
+
+        function openModalReservation(roomId) {
+            if (!roomId) {
+                alert("No se ha seleccionado una habitación válida.");
+            }
+            console.log("Opening modal for room ID:", roomId); // Agregado para depurar
             document.getElementById('reservationModal').classList.remove('hidden');
+            document.getElementById('idRoom').value = roomId;
         }
 
         function closeModal() {
             document.getElementById('reservationModal').classList.add('hidden');
         }
+
+        function showLoaderFunc() {
+            document.getElementById("loader").classList.remove("hidden");
+        }
+
+        function hideLoaderFunc() {
+            document.getElementById("loader").classList.add("hidden");
+        }
+
+        window.onload = function () {
+            showLoaderFunc();
+
+            setTimeout(function () {
+                hideLoaderFunc();
+            }, 500);
+        }
+
     </script>
 </div>
-
 </body>
 </html>
